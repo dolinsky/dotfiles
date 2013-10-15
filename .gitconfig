@@ -1,0 +1,78 @@
+[user]
+	name = David Olinsky
+	email = dolinsky@gmail.com
+[advice]
+	statusHints = false
+[alias]
+	alias = config --get-regexp alias
+    b = branch
+    bv = branch -vv
+    br = branch -vr
+    # branch fast-forward: update from upstream if it's a fast-forward
+    bff = "!f() { for i; do [[ $(git rev-parse $i) == $(git merge-base $i $i@{upstream}) ]] && git checkout $i && git merge $i@{upstream} && git checkout -; done; }; f"
+    ci = commit
+    co = checkout
+    d = diff
+    f = fetch
+    fa = !git remote | xargs -tp -L1 git fetch
+    fu = "!f() { git commit -m\"fixup! $(git log -1 --pretty=%s $1)\"; }; f"
+    headless = !sh -c 'git symbolic-ref HEAD refs/heads/$0 && rm .git/index && git clean -fdx'
+    l50 = "!git log --abbrev-commit --date=short --pretty=format:'%x00%h%x00%cd%x00%s%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m \\033[32m%s\\033[0m  %-50s \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, $3, gensub(/(.{49}).{2,}/, \"\\\\1…\",\"g\",$4), $5, $6 }' | less -R"
+    l80 = "!git log --abbrev-commit --date=short --pretty=format:'%x00%h%x00%cd%x00%s%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m \\033[32m%s\\033[0m  %-80s \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, $3, gensub(/(.{79}).{2,}/, \"\\\\1…\",\"g\",$4), $5, $6 }' | less -R"
+    lg50 = "!git log --graph --color=always --abbrev-commit --date=relative --pretty=format:'%x00%h%x00%s%x00%cd%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m %-50s \\033[32m%14s\\033[0m \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, gensub(/(.{49}).{2,}/, \"\\\\1…\",\"g\",$3), $4, $5, $6 }' | less -R"
+    lg80 = "!git log --graph --color=always --abbrev-commit --date=relative --pretty=format:'%x00%h%x00%s%x00%cd%x00%an%x00%d' | gawk -F '\\0' '{ printf \"%s\\033[31m%s\\033[0m %-80s \\033[32m%14s\\033[0m \\033[30;1m%s\\033[0m\\033[33m%s\\n\", $1, $2, gensub(/(.{79}).{2,}/, \"\\\\1…\",\"g\",$3), $4, $5, $6 }' | less -R"
+    pom = push origin master
+    r = remote
+    rl = reflog show --date=relative
+    sl = stash list
+    st = status
+    su = submodule update
+    sq = "!f() { git commit -m\"squash! $(git log -1 --pretty=%s $1)\"; }; f"
+	unstage = reset HEAD
+    wud = log -p origin..@{0}
+    wu = log --stat origin..@{0}
+    # from http://sitaramc.github.com/tools/my.gitconfig.txt
+    # when was this branch last updated, on every branch
+    wwblu = "!f() { for b in $(git rev-parse --symbolic --remotes --branches); do echo -e `git log --format=%at:%ar -1 $b -- "$1"`\t$b; done | sort -r |cut -f2 -d: ; }; f"
+	ri = rebase -i --autosquash
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    # ribbon / catchup from 
+    # http://gitready.com/advanced/2011/10/21/ribbon-and-catchup-reading-new-commits.html
+    ribbon = tag --force _ribbon origin/master
+    catchup = "!f() { git log --reverse --topo-order _ribbon..$(git rev-parse --abbrev-ref HEAD); }; f"
+
+
+[branch "master"]
+#	--no-ff is an antipattern. use tags baby!
+#	mergeoptions = --no-ff
+[color]
+	ui = auto
+[core]
+	editor = mvim -f --nomru -c \"au VimLeave * !open -a iTerm.app\"
+	excludesfile = /Users/dolinsky/.gitignore_global
+	filemode = false
+	status = auto
+	editor = mvim
+	pager = less -XRF
+	autocrlf = input
+[diff]
+	mnemonicprefix = true
+[github]
+	user = dolinsky
+	token = 5411eeb813db3cc2193223fe65c85e26
+[help]
+	format = man
+[merge]
+	stat = true
+	conflictstyle = diff3
+[pack]
+	threads = 0
+[log]
+	abbrevCommit = true
+[push]
+# makes every push explicitly declare which branches to push
+	default = nothing
+[web]
+	browser = open
+[branch]
+	autosetupmerge = true

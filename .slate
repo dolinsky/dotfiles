@@ -1,0 +1,61 @@
+# https://github.com/jigish/slate
+# http://thume.ca/howto/2012/11/19/using-slate/
+config defaultToCurrentScreen true
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+config secondsBetweenRepeat 0.1
+config checkDefaultsOnLoad true
+config windowHintsShowIcons true
+config windowHintsIgnoreHiddenWindows false
+config windowHintsSpread true
+
+# monitor aliases
+alias mon-mbp	0
+alias mon-lcd1	1
+
+# HYPER key
+alias hyper ctrl;shift;alt;cmd
+
+# expression aliases
+alias sox screenOriginX
+alias soy screenOriginY
+alias ssx screenSizeX
+alias ssy screenSizeY
+alias wtlx windowTopLeftX
+alias wtly windowTopLeftY
+
+# window hints
+bind e:alt hint ASDFGHJKLQWERTYUIOP
+
+# window grid
+bind g:alt grid padding:3 0:6,2
+
+# abstract positions
+alias full move ${sox};${soy} ${ssx};${ssy}
+alias lefthalf move ${sox};${soy} ${ssx}/2;${ssy}
+alias righthalf move ${sox}+${ssx}/2;${soy} ${ssx}/2;${ssy}
+
+# layouts
+layout mdx2screen 'iTerm' throw 1
+layout mdx2screen 'MacVim' throw 0
+layout mdx2screen 'Google Chrome' throw 1
+layout mdx2screen 'HipChat' throw 0
+
+# defaults
+default mdx2screen resolutions:${mon-mbp};${mon-lcd1};
+default 1screen	resolutions:${mon-mbp};
+
+# bindings
+bind r:${hyper} relaunch
+
+# location bindings
+bind h:${hyper} ${lefthalf}
+bind j:${hyper} ${full}
+bind k:${hyper} ${righthalf}
+bind t:${hyper} throw next
+
+# App Bindings
+bind m:${hyper} focus 'MacVim'
+bind i:${hyper} focus 'iTerm'
+bind n:${hyper} focus 'Google Chrome'
+

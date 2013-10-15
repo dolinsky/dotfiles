@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+echo "Don't forget to add $(brew --prefix)/share/python to \$PATH."
+pip install --upgrade distribute
+pip install --upgrade pip
+pip install virtualenv
+pip install virtualenvwrapper

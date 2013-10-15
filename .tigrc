@@ -1,0 +1,11 @@
+# .tigrc
+# http://jonas.nitro.dk/tig/manual.html
+set id-width = 8
+set tab-size = 4
+
+set show-author = abbreviated
+set show-date = relative
+set show-rev-graph = yes
+set show-refs = yes
+set show-id = true
+set show-changes = true

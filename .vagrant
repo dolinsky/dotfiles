@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+#after vagrant has been installed, install the vagrant-vbguest plugin
+vagrant plugin install vagrant-vbguest
