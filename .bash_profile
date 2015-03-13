@@ -53,6 +53,9 @@ if [ -f ~/bin/tmuxinator.sh ]; then
     . ~/bin/tmuxinator.sh
 fi
 
+# setting due to brew meld install
+#export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
 # make sure the directory has been created first
 export VIRTUALENV_DISTRIBUTE=true
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
