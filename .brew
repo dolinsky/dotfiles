@@ -79,6 +79,7 @@ installcask dropbox
 installcask evernote
 installcask slate
 #installcask quicksilver
+installcask jumpcut
 installcask hipchat
 #installcask vagrant
 #installcask virtualbox
