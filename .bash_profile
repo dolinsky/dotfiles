@@ -28,6 +28,11 @@ shopt -s globstar
 # Add tab completion for SSH hostnames
 #[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
  
+# pyenv
+#if [ -f "$HOME/.dotfiles/.pyenvrc" ]; then
+#    . "$HOME/.dotfiles/.pyenvrc"
+#fi
+
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
