@@ -1,11 +1,20 @@
 # .tigrc
 # http://jonas.nitro.dk/tig/manual.html
+# https://github.com/jonas/tig/wiki/Bindings
 set id-width = 8
-set tab-size = 4
+set tab-size = 2
+set line-graphics = utf-8
+set reference-format = (branch) <tag>
 
-set show-author = abbreviated
-set show-date = relative
-set show-rev-graph = yes
-set show-refs = yes
-set show-id = true
-set show-changes = true
+set main-view   =   line-number:no,interval:5 \
+                    id:true \
+                    date:relative \
+                    author:abbreviated \
+                    commit-title:yes,graph,refs,overflow=no
+set refs-view   =   date:relative \
+                    author:abbreviated \
+                    id:true \
+                    commit-title:yes,refs
+
+# bindings
+bind main B !git rebase -i %(commit)
