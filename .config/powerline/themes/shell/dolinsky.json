@@ -10,7 +10,7 @@
 			},
 			{
 				"function": "powerline.segments.common.env.user",
-				"priority": 30
+				"priority": 10
 			},
 			{
 				"function": "powerline.segments.common.env.virtualenv",
@@ -23,15 +23,16 @@
 			{
 				"function": "powerline.segments.shell.jobnum",
 				"priority": 20
-			}
-		],
-		"right": [
+			},
 			{
 				"function": "powerline.segments.shell.last_pipe_status",
 				"priority": 10
 			},
 			{
 				"function": "powerline.segments.common.vcs.branch",
+                "args": {
+                    "status_colors": true
+                },
 				"priority": 40
 			}
 		]
