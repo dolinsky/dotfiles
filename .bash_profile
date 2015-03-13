@@ -2,7 +2,7 @@
 # Set architecture flags
 export ARCHFLAGS="-arch x86_64"
 # Ensure user-installed binaries take precedence
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin
+export PATH=/usr/local/bin:/usr/local/sbin:$HOME/bin:$PATH
 
 # change the shell
 if [ ! -n "$BASH" ]; then
@@ -52,3 +52,5 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export PIP_VIRTUALENV_BASE="$HOME/.virtualenvs"
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 source "/usr/local/bin/virtualenvwrapper.sh"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
