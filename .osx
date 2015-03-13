@@ -13,6 +13,9 @@ ln -s ~/.dotfiles/.slate ~/.slate
 ln -s ~/.dotfiles/.hushlogin ~/.hushlogin
 ln -s ~/.dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/.aliases ~/.aliases
+ln -s ~/.dotfiles/.psqlrc ~/.psqlrc
+
+mkdir ~/.psql # for housing psql_history broken out by host/db
 
 # menu bar: disable transparency
 
