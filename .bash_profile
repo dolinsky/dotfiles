@@ -49,6 +49,10 @@ if [ -f /usr/local/lib/python2.7/site-packages/powerline/bindings/bash/powerline
     . /usr/local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
 fi
 
+if [ -f ~/bin/tmuxinator.sh ]; then
+    . ~/bin/tmuxinator.sh
+fi
+
 # make sure the directory has been created first
 export VIRTUALENV_DISTRIBUTE=true
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
