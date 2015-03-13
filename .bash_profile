@@ -47,7 +47,7 @@ fi
 # make sure the directory has been created first
 export VIRTUALENV_DISTRIBUTE=true
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-#export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/share/python/virtualenv
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 export WORKON_HOME="$HOME/.virtualenvs"
 export PIP_VIRTUALENV_BASE="$HOME/.virtualenvs"
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
