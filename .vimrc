@@ -30,6 +30,7 @@ set notimeout
 set nottimeout
 set autowrite
 set shiftround
+set backspace=indent,eol,start
 " ----------- }}}
 
 " Managing Splits --- {{{
@@ -61,7 +62,9 @@ set formatoptions=qrn1w "see :help fo-table
                  "||_ auto-insert of comment leader
                  "|_ allow formatting of comments w/ "gq"
 set colorcolumn=+1,+10
-set lcs=tab:>-,eol:<,trail:…
+" set lcs=tab:>-,eol:<,trail:…
+set list listchars=tab:>-,trail:·,nbsp:·
+" }}}
 
 " Leader {{{
 
@@ -79,7 +82,6 @@ set smartcase
 set incsearch
 set showmatch
 set hlsearch
-set gdefault
 
 noremap <silent> <leader><space> :noh<cr>
 
@@ -210,7 +212,8 @@ augroup autocmds
     " highlight chars past 120
     autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
     autocmd FileType python match Excess /\%120v.*/
-    autocmd FileType python set nowrap
+    autocmd FileType python set nowrap autoindent smartindent
+    autocmd FileType conf setlocal expandtab shiftwidth=2 tabstop=2
 augroup END
 
 " Powerline {{{
@@ -218,3 +221,12 @@ python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
 " }}}
+
+" Syntastic {{{
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatusLineFlag()}
+"set statusline+=%*
+"
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"
