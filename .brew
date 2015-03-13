@@ -10,8 +10,11 @@ echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH.
 brew install findutils
 # Install Bash 4
 brew install bash
-
 sudo bash -c "echo /usr/local/bin/bash >> /private/etc/shells"
+
+# Install zsh
+brew install zsh
+sudo bash -c "echo /usr/local/bin/zsh >> /private/etc/shells"
 
 # Install wget with IRI support
 brew install wget --enable-iri
