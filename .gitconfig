@@ -1,6 +1,5 @@
-[user]
-	name = David Olinsky
-	email = dolinsky@gmail.com
+[include]
+    path = ~/.gitconfig.local
 [advice]
 	statusHints = false
 [alias]
@@ -29,6 +28,30 @@
     su = submodule update
     sq = "!f() { git commit -m\"squash! $(git log -1 --pretty=%s $1)\"; }; f"
 	unstage = reset HEAD
+    vs = "! \
+    O=(); \
+    SEEN_DD=false; \
+    unset A; \
+    while [ ! -z \"$1\" ]; do \
+      if [[ \"$1\" =~ ^- ]] || $SEEN_DD; then \
+        O=(\"${O[@]}\" $1); \
+        if [ \"$1\" == \"--\" ]; then SEEN_DD=true; fi; \
+      elif [ -z \"$A\" ]; then \
+        A=\"$1\"; \
+      else \
+        O=(\"${O[@]}\" \"$1\"); \
+      fi; \
+      shift; \
+    done; \
+    if ! $SEEN_DD; then O=(\"${O[@]}\" \"--\"); fi; \
+    A=\"${A-origin/master}\"; \
+    B=\"$(git symbolic-ref HEAD --short)\"; \
+    echo From \"$A..$B:\"; \
+    git --no-pager hist $A..$B \"${O[@]}\"; \
+    echo; \
+    echo From \"$B..$A:\"; \
+    git --no-pager hist $B..$A \"${O[@]}\"; \
+    "
     wud = log -p origin..@{0}
     wu = log --stat origin..@{0}
     # from http://sitaramc.github.com/tools/my.gitconfig.txt
@@ -47,24 +70,38 @@
 #	mergeoptions = --no-ff
 [color]
 	ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = red
+
 [core]
-	editor = mvim -f --nomru -c \"au VimLeave * !open -a iTerm.app\"
-	excludesfile = /Users/dolinsky/.gitignore_global
+	editor = vim -f -c \"au VimLeave * !open -a iTerm.app\"
+	excludesfile = ~/.gitignore_global
 	filemode = false
 	status = auto
-	editor = mvim
 	pager = less -XRF
+    # nix/osx - autocrlf = input | win - autocrlf = true
+    # https://help.github.com/articles/dealing-with-line-endings/
 	autocrlf = input
+    safecrlf = warn
 [diff]
 	mnemonicprefix = true
-[github]
-	user = dolinsky
-	token = 5411eeb813db3cc2193223fe65c85e26
 [help]
 	format = man
 [merge]
 	stat = true
 	conflictstyle = diff3
+    defaultToUpstream = true
 [pack]
 	threads = 0
 [log]
@@ -76,3 +113,12 @@
 	browser = open
 [branch]
 	autosetupmerge = true
+
+[tig]
+    author = abbreviated
+    date = relative
+[tig "color"]
+    diff-oldmode = red default
+    diff-newmode = green default
+    diff-del = red default
+    diff-add = green default

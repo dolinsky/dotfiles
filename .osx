@@ -3,6 +3,9 @@
 # Ask for the admin pwd upfront
 sudo -v
 
+# command line tools
+# https://developer.apple.com/downloads/index.action
+
 # keep-alive; update existing `sudo` time stamp until .osx has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
@@ -14,6 +17,7 @@ ln -s ~/.dotfiles/.hushlogin ~/.hushlogin
 ln -s ~/.dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/.aliases ~/.aliases
 ln -s ~/.dotfiles/.psqlrc ~/.psqlrc
+ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
 
 mkdir ~/.psql # for housing psql_history broken out by host/db
 
