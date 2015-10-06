@@ -30,6 +30,7 @@ brew install python --with-brewed-openssl --framework
 brew install ack
 brew install autoconf
 brew install automake
+brew install awscli
 brew install bash-completion
 brew install ctags
 brew install dos2unix

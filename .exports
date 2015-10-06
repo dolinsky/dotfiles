@@ -33,3 +33,6 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # rvm
 export PATH=$PATH:$HOME/.rvm/bin
+
+#awscli
+complete -C '$(which aws_completer)' aws
