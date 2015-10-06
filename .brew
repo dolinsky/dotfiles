@@ -34,6 +34,19 @@ brew install bash-completion
 brew install ctags
 brew install dos2unix
 brew install brew-pip
+brew install elasticsearch
+#==> Caveats
+#Data:    /usr/local/var/elasticsearch/elasticsearch_dolinsky/
+#Logs:    /usr/local/var/log/elasticsearch/elasticsearch_dolinsky.log
+#Plugins: /usr/local/var/lib/elasticsearch/plugins/
+#Config:  /usr/local/etc/elasticsearch/
+#
+#To have launchd start elasticsearch at login:
+#    ln -sfv /usr/local/opt/elasticsearch/*.plist ~/Library/LaunchAgents
+#Then to load elasticsearch now:
+#    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.elasticsearch.plist
+#Or, if you don't want/need launchctl, you can just run:
+#    elasticsearch --config=/usr/local/opt/elasticsearch/config/elasticsearch.yml
 brew install fping
 brew install fontforge
 brew install freetype
