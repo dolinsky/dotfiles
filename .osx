@@ -18,8 +18,10 @@ ln -s ~/.dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/.aliases ~/.aliases
 ln -s ~/.dotfiles/.psqlrc ~/.psqlrc
 ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
+ln -s ~/.dotfiles/.pylintrc ~/.pylintrc
+ln -s ~/.dotfiles/.inputrc ~/.inputrc
 
-mkdir ~/.psql # for housing psql_history broken out by host/db
+mkdir -p ~/.psql # for housing psql_history broken out by host/db
 
 # menu bar: disable transparency
 
