@@ -1,0 +1,15 @@
+# cleanup broken virtualenvs due to upgraded brew'd python
+function relinkvirtualenv(){
+    if [ -z "${1}" ]; then
+        echo "ERROR: No virtualenv specified"
+        return 1;
+    fi;
+
+    if [ -z "${2}" ]; then
+        echo "ERROR: No version of python specified"
+        return 1;
+    fi;
+    deactivate
+    find ~/.virtualenvs/${1} -type l -delete
+    mkvirtualenv -p python${2} ${1}
+}
