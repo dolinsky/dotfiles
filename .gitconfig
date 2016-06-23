@@ -82,7 +82,7 @@
 [color "status"]
     added = yellow
     changed = green
-    untracked = red
+    untracked = cyan
 
 [core]
 	editor = vim -f -c \"au VimLeave * !open -a iTerm.app\"
@@ -122,3 +122,4 @@
     diff-newmode = green default
     diff-del = red default
     diff-add = green default
+    diff-add2 = green default

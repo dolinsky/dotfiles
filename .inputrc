@@ -1,7 +1,12 @@
 set input-meta on
 set output-meta on
 set conver-meta off
-set -o vi
+set editing-mode vi
 
 # enable case insensitivity for tab-completion
 set completion-ignore-case On
+
+$if mode=vi
+set keymap vi-command mode
+Control-l: clear-screen
+$endif

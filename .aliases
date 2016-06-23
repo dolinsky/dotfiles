@@ -9,6 +9,7 @@ alias cls=clear
 alias rig='grep -ir'
 alias ig='grep -i'
 alias l='ls -alF'
+alias la='ls -alFtrSh'
 alias lcl='ls -cl'
 alias loc='locate -i'
 alias lpin='lsof -l -P -i -n|sort -k 9'
@@ -22,6 +23,7 @@ alias ns='{ ps auxw|grep netscape|grep -v grep; /usr/local/bin/rnl; };'
 alias o='less -m'
 alias psor='ps auxw|sort -k 2| /usr/bin/less -m'
 alias psva='ps va|sort -r -k 8|o'
+alias pipu='pip list -o | cut -d" " -f1 | xargs -n1 pip install -U'
 alias rd=rmdir
 alias seto='set|less'
 alias unzip='unzip -L'
@@ -35,11 +37,26 @@ alias sls='screen -ls'
 alias sdr='screen -d -r $1'
 alias pget='ps auwxx|grep -i $1'
 
+alias fn?='find . -name'
 alias fg='find . -name "*.php" | xargs grep -nHr $1'
 alias lin='ssh -2 -p 40026 puzbot@69.164.221.74'
 
+# docker
+alias dc='docker-compose'
+alias dm='docker-machine'
+alias dmip='docker-machine ip'
+alias drm='docker rm $(docker ps -qa --filter "dangling=true")'
+alias drmi='docker rmi $(docker ps -qa --filter "dangling=true")'
+alias docker-clean-volumes='docker volume rm $(docker volume ls -qf dangling=true)'
+function dmeval {
+    eval "`docker-machine env \$1`"
+}
+function delnone { docker rmi $(docker images | grep none | awk '{print $3}') ;}
+
 # homebrewin
 alias git=hub
+alias bl='brew ls'
+alias blp='brew ls --pinned'
 
 # once MacVim is installed, use this for tmux/vim integration
 #alias vim='mvim -v'
@@ -55,50 +72,50 @@ alias zooweb='ssh -2 -p 40026 zoobot@50.56.112.121'
 
 # functions
 # toggle git-prompt
-tgp () {
-    TARGET="$HOME/bin/git-prompt.sh"
-    SOURCE="$HOME/repos/git-prompt/git-prompt.sh"
-    if [ -h "$TARGET" ]; then
-        rm "$TARGET" && $(which bash) 
-    else
-        ln -s $SOURCE $TARGET && . $TARGET
-    fi
-}
-
-ll () {
-  if [ -f "$1" ]; then
-    less "$1"
-  else
-    l "$1"
-  fi
-}
-
-lr () {
-     if [ -d "$1" ]; then
-      ls -alR "$1"
-     elif [ ! "$1" ]; then
-      ls -alR .
-     else
-      find -iname "$1" -ls
-     fi
-}
-
-lo () {
-	ls -alF ${1-$(pwd)}| less
-}
-
-lro () {
-	ls -alR ${1-$(pwd)}| less
-}
-
-lld () {
-	ls -al ${1-$(pwd)} | grep "^d"
-}
-
-lldo () {
-	ls -al ${1-$(pwd)} | grep "^d" | less -m
-}
-
-export -f tgp lr lro lo lld
+#tgp () {
+#    TARGET="$HOME/bin/git-prompt.sh"
+#    SOURCE="$HOME/repos/git-prompt/git-prompt.sh"
+#    if [ -h "$TARGET" ]; then
+#        rm "$TARGET" && $(which bash) 
+#    else
+#        ln -s $SOURCE $TARGET && . $TARGET
+#    fi
+#}
+#
+#ll () {
+#  if [ -f "$1" ]; then
+#    less "$1"
+#  else
+#    l "$1"
+#  fi
+#}
+#
+#lr () {
+#     if [ -d "$1" ]; then
+#      ls -alR "$1"
+#     elif [ ! "$1" ]; then
+#      ls -alR .
+#     else
+#      find -iname "$1" -ls
+#     fi
+#}
+#
+#lo () {
+#	ls -alF ${1-$(pwd)}| less
+#}
+#
+#lro () {
+#	ls -alR ${1-$(pwd)}| less
+#}
+#
+#lld () {
+#	ls -al ${1-$(pwd)} | grep "^d"
+#}
+#
+#lldo () {
+#	ls -al ${1-$(pwd)} | grep "^d" | less -m
+#}
+#
+#export -f tgp lr lro lo lld
 
 ##EOF

@@ -21,14 +21,6 @@ persistent=yes
 # usually to register additional checkers.
 load-plugins=
 
-# Deprecated. It was used to include message's id in output. Use --msg-template
-# instead.
-include-ids=no
-
-# Deprecated. It was used to include symbolic ids of messages in output. Use
-# --msg-template instead.
-symbols=no
-
 # Use multiple processes to speed up Pylint.
 jobs=1
 
@@ -86,7 +78,7 @@ output-format=text
 files-output=no
 
 # Tells whether to display a full report or only the messages
-reports=yes
+reports=no
 
 # Python expression which should return a note less than 10 (10 is the highest
 # note). You have access to the variables errors warning, statement which

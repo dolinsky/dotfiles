@@ -4,6 +4,7 @@
 set id-width = 8
 set tab-size = 2
 set line-graphics = utf-8
+set git-colors = yes
 set reference-format = (branch) <tag>
 
 set main-view   =   line-number:no,interval:5 \
@@ -18,3 +19,11 @@ set refs-view   =   date:relative \
 
 # bindings
 bind main B !git rebase -i %(commit)
+# show diff on merge commit
+bind diff 7 !git diff %(commit)^ %(commit) --color
+
+# *color* 'area' 'fgcolor' 'bgcolor' '[attributes]'
+# general
+#
+# Diff colors
+color   diff-add    green   default

@@ -2,6 +2,8 @@
 \set COMP_KEYWORD_CASE upper
 \set HISTFILE ~/.psql/history- :HOST :DBNAME
 \set PROMPT1 '%[%033[1m%]%n@%m [%/]%# '
+-- PROMPT2, when the prompt expects more input
+\set PROMPT2 '[...] %R > '
 
 -- show how long each query takes
 \timing
@@ -9,11 +11,29 @@
 -- output format
 \pset null '(null)'
 \pset border 0
+-- wrap to prevent columns from running off the screen
+\pset format wrapped
+\pset pager off
 \x auto
 
 -- good queries to have, call with :name
 \set uptime 'select now() - backend_start as uptime from pg_stat_activity where pid = pg_backend_pid();'
+\set settings 'select name, setting,unit,context from pg_settings;'
 \set conns 'select count(*) , datname , client_addr , state , application_name FROM pg_stat_activity where pid <> pg_backend_pid() group by client_addr, datname, state, application_name order by datname,state;'
+\set idleconns 'select pid, datname, client_addr, client_hostname, current_timestamp - state_change AS time_idle from pg_stat_activity where pid <> pg_backend_pid() and state = \'idle\' and state_change < current_timestamp - INTERVAL \'1\' DAY;'
+\set waits 'SELECT pg_stat_activity.pid, pg_stat_activity.query, pg_stat_activity.waiting, now() - pg_stat_activity.query_start AS \"totaltime\", pg_stat_activity.backend_start FROM pg_stat_activity WHERE pg_stat_activity.query !~ \'%IDLE%\'::text AND pg_stat_activity.waiting = true;'
 \set rtsize '(select table_schema, table_name, pg_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) as size, pg_total_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) as total_size  from information_schema.tables where table_type = \'BASE TABLE\' and table_schema not in (\'information_schema\', \'pg_catalog\') order by pg_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) desc, table_schema, table_name)'
 \set tsize '(select table_schema, table_name, pg_size_pretty(size) as size, pg_size_pretty(total_size) as total_size from (:rtsize) x order by x.size desc, x.total_size desc, table_schema, table_name)'
 \set dbsize 'SELECT pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) AS size FROM pg_database;'
+\set cp_bloat 'SELECT current_database(), schemaname, tablename, ROUND(CASE WHEN otta=0 THEN 0.0 ELSE sml.relpages/otta::NUMERIC END,1) AS tbloat, CASE WHEN relpages < otta THEN 0 ELSE bs*(sml.relpages-otta)::BIGINT END AS wastedbytes, iname, ROUND(CASE WHEN iotta=0 OR ipages=0 THEN 0.0 ELSE ipages/iotta::NUMERIC END,1) AS ibloat, CASE WHEN ipages < iotta THEN 0 ELSE bs*(ipages-iotta) END AS wastedibytes FROM ( SELECT schemaname, tablename, cc.reltuples, cc.relpages, bs, CEIL((cc.reltuples*((datahdr+ma- (CASE WHEN datahdr%ma=0 THEN ma ELSE datahdr%ma END))+nullhdr2+4))/(bs-20::FLOAT)) AS otta, COALESCE(c2.relname,\'?\') AS iname, COALESCE(c2.reltuples,0) AS ituples, COALESCE(c2.relpages,0) AS ipages, COALESCE(CEIL((c2.reltuples*(datahdr-12))/(bs-20::FLOAT)),0) AS iotta FROM ( SELECT ma,bs,schemaname,tablename, (datawidth+(hdr+ma-(CASE WHEN hdr%ma=0 THEN ma ELSE hdr%ma END)))::NUMERIC AS datahdr, (maxfracsum*(nullhdr+ma-(CASE WHEN nullhdr%ma=0 THEN ma ELSE nullhdr%ma END))) AS nullhdr2 FROM ( SELECT schemaname, tablename, hdr, ma, bs, SUM((1-null_frac)*avg_width) AS datawidth, MAX(null_frac) AS maxfracsum, hdr+( SELECT 1+COUNT(*)/8 FROM pg_stats s2 WHERE null_frac<>0 AND s2.schemaname = s.schemaname AND s2.tablename = s.tablename) AS nullhdr FROM pg_stats s, ( SELECT (SELECT current_setting(\'block_size\')::NUMERIC) AS bs, CASE WHEN SUBSTRING(v,12,3) IN (\'8.0\',\'8.1\',\'8.2\') THEN 27 ELSE 23 END AS hdr, CASE WHEN v ~ \'mingw32\' THEN 8 ELSE 4 END AS ma FROM (SELECT version() AS v) AS foo) AS constants GROUP BY 1,2,3,4,5) AS foo) AS rs JOIN pg_class cc ON cc.relname = rs.tablename JOIN pg_namespace nn ON cc.relnamespace = nn.oid AND nn.nspname = rs.schemaname AND nn.nspname <> \'information_schema\' LEFT JOIN pg_index i ON indrelid = cc.oid LEFT JOIN pg_class c2 ON c2.oid = i.indexrelid) AS sml ORDER BY wastedbytes DESC;'
+\set buffers_ideal 'SELECT pg_size_pretty(count(*) * 8192) as ideal_shared_buffers FROM pg_class c INNER JOIN pg_buffercache b ON b.relfilenode = c.relfilenode INNER JOIN pg_database d ON (b.reldatabase = d.oid AND d.datname = current_database()) WHERE usagecount >= 3;'
+\set buffers_relations 'select c.relname,pg_size_pretty(count(*) * 8192) as buffered, round(100.0 * count(*) / ( select setting from pg_settings where name='shared_buffers')::integer,1) as buffer_percent, round(100.0*count(*)*8192 / pg_table_size(c.oid),1) as percent_of_relation from pg_class c inner join pg_buffercache b on b.relfilenode = c.relfilenode inner join pg_database d on ( b.reldatabase =d.oid and d.datname =current_database()) group by c.oid,c.relname order by 3 desc limit 10;'
+\set buffers_relation_usage 'select c.relname,count(*) as buffers,usagecount from pg_class c inner join pg_buffercache b on b.relfilenode = c.relfilenode inner join pg_database d on (b.reldatabase = d.oid and d.datname =current_database()) group by c.relname,usagecount order by c.relname,usagecount;'
+\set buffers_top_relations 'select c.relname,count(*) as buffers from pg_class c inner join pg_buffercache b on b.relfilenode=c.relfilenode inner join pg_database d on (b.reldatabase=d.oid and d.datname=current_database()) group by c.relname order by 2 desc limit 20;'
+\set buffers_summary 'select usagecount,count(*),isdirty from pg_buffercache group by isdirty,usagecount order by isdirty,usagecount;'
+\set diskusage 'select nspname,relname,pg_size_pretty(pg_relation_size(c.oid)) as "size" from pg_class c left join pg_namespace n on ( n.oid=c.relnamespace) where nspname not in ('pg_catalog','information_schema') order by pg_relation_size(c.oid) desc limit 30;'
+\set show_slow_queries 'SELECT (total_time / 1000 / 60) as total_minutes, (total_time / calls) as average_time, query FROM pg_stat_statements ORDER BY 1 DESC LIMIT 100;'
+
+-- indexes
+\set unused_indexes 'SELECT schemaname || ''.'' || relname AS table, indexrelname AS index, pg_size_pretty(pg_relation_size(i.indexrelid)) AS index_size, idx_scan as index_scans FROM pg_stat_user_indexes ui JOIN pg_index i ON ui.indexrelid = i.indexrelid WHERE NOT indisunique AND idx_scan < 50 AND pg_relation_size(relid) > 5 * 8192 ORDER BY pg_relation_size(i.indexrelid) / nullif(idx_scan, 0) DESC NULLS FIRST, pg_relation_size(i.indexrelid) DESC;'
+\set missing_indexes 'SELECT relname, seq_scan-idx_scan AS too_much_seq, case when seq_scan-idx_scan > 0 THEN ''Missing Index?'' ELSE ''OK'' END, pg_relation_size(relname::regclass) AS rel_size, seq_scan, idx_scan FROM pg_stat_all_tables WHERE pg_relation_size(relname::regclass) > 80000 ORDER BY too_much_seq DESC;'

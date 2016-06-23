@@ -69,6 +69,14 @@ brew install ngrep
 brew install python3
 brew install readline
 brew install sqlite
+brew install siege
+# to get around the socket limit on OSX
+# sysctl net.inet.tcp.msl
+#net.inet.tcp.msl: 15000
+# sudo sysctl -w net.inet.tcp.msl=1000
+#net.inet.tcp.msl: 15000 -> 1000
+#Run siege.config to create the ~/.siegerc config file.
+
 brew install ssh-copy-id
 brew install tig
 brew install tmux
@@ -76,8 +84,12 @@ brew install tree
 brew install wget
 brew install zmq --universal
 
+# homebrew-cask
+# install: brew cask install *name*
+# cleanup:  brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
 # Install native apps
 brew tap phinze/homebrew-cask
+# TODO: does brew-cask get replaced with `brew install caskroom/cask/brew-cask`
 brew install brew-cask
 
 function installcask() {
@@ -94,10 +106,13 @@ installcask vlc
 installcask colloquy
 installcask dropbox
 installcask evernote
-installcask slate
+installcask mattr-slate #https://github.com/mattr-/slate
 #installcask quicksilver
 installcask jumpcut
 installcask hipchat
+installcask pgadmin3
+installcask gpgtools
+installcask 1password
 #installcask vagrant
 #installcask virtualbox
 #https://github.com/dotless-de/vagrant-vbguest

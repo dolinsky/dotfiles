@@ -1,6 +1,7 @@
 {
 	"common": {
-		"term_truecolor": false
+		"term_truecolor": false,
+        "watcher": "stat"
 	},
 	"ext": {
 		"ipython": {
@@ -12,8 +13,12 @@
 				"in2": "in2"
 			}
 		},
-		"shell": {
+		"pdb": {
 			"colorscheme": "default",
+			"theme": "default"
+		},
+		"shell": {
+			"colorscheme": "solarized",
 			"theme": "dolinsky",
 			"local_themes": {
 				"continuation": "continuation",
@@ -35,7 +40,6 @@
 				"quickfix": "quickfix",
 
 				"powerline.matchers.vim.plugin.nerdtree.nerdtree": "plugin_nerdtree",
-				"powerline.matchers.vim.plugin.ctrlp.ctrlp": "plugin_ctrlp",
 				"powerline.matchers.vim.plugin.commandt.commandt": "plugin_commandt",
 				"powerline.matchers.vim.plugin.gundo.gundo": "plugin_gundo",
 				"powerline.matchers.vim.plugin.gundo.gundo_preview": "plugin_gundo-preview"
