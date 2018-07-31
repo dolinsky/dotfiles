@@ -27,6 +27,7 @@
 		"internal_ip":               { "fg": "gray8", "bg": "gray0", "attrs": [] },
 		"network_load":              { "fg": "gray8", "bg": "gray0", "attrs": [] },
 		"network_load_gradient":     { "fg": "green_yellow_orange_red", "bg": "gray0", "attrs": [] },
+		"network_load:divider":      "background:divider",
 		"system_load":               { "fg": "gray8", "bg": "gray0", "attrs": [] },
 		"system_load_gradient":      { "fg": "green_yellow_orange_red", "bg": "gray0", "attrs": [] },
 		"environment":               { "fg": "gray8", "bg": "gray0", "attrs": [] },
@@ -46,6 +47,20 @@
 		"cwd:current_folder":        "information:regular",
 		"cwd:divider":               { "fg": "gray7", "bg": "gray4", "attrs": [] },
 		"virtualenv":                { "fg": "white", "bg": "darkcyan", "attrs": [] },
-		"attached_clients":          { "fg": "gray8", "bg": "gray0", "attrs": [] }
+		"attached_clients":          { "fg": "gray8", "bg": "gray0", "attrs": [] },
+        "gitstatus":                 { "fg": "solarized:base3", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_branch":          { "fg": "solarized:green", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_branch_clean":    { "fg": "solarized:green", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_branch_dirty":    { "fg": "solarized:orange", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_branch_detached": { "fg": "solarized:violet", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_behind":          { "fg": "solarized:blue", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_ahead":           { "fg": "solarized:base2", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_staged":          { "fg": "solarized:base2", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_tag":             { "fg": "solarized:green", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_unmerged":        { "fg": "solarized:red", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_changed":         { "fg": "solarized:orange", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_untracked":       { "fg": "solarized:base2", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus_stashed":         { "fg": "solarized:yellow", "bg": "solarized:base02", "attrs": [] },
+        "gitstatus:divider":         { "fg": "solarized:base02", "bg": "solarized:base00", "attrs": [] }
 	}
 }

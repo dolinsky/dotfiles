@@ -50,7 +50,9 @@
 		"powerline.segments.common.bat.battery": {
 			"args": {
 				"full_heart": "💙",
-				"empty_heart": "💛"
+				"empty_heart": "💛",
+				"online": "⚡️",
+				"offline": " "
 			}
 		},
 		"powerline.segments.common.sys.uptime": {
@@ -139,7 +141,16 @@
 		},
 		"powerline.segments.vim.modified_indicator": {
 			"args": {
-				"text": "🖫⃥"
+				"text": "Μ"
+			}
+		},
+
+		"powerline.segments.i3wm.scratchpad": {
+			"args": {
+				"icons": {
+					"fresh": "●",
+					"changed": "○"
+				}
 			}
 		}
 	}

@@ -3,24 +3,48 @@
 # https://github.com/jonas/tig/wiki/Bindings
 set id-width = 8
 set tab-size = 2
+set diff-highlight = false
 set line-graphics = utf-8
 set git-colors = yes
 set reference-format = (branch) <tag>
 
-set main-view   =   line-number:no,interval:5 \
-                    id:true \
-                    date:relative \
-                    author:abbreviated \
-                    commit-title:yes,graph,refs,overflow=no
+set main-view   =   author:abbreviated \
+                    date:relative-compact \
+                    line-number:no,interval:5 \
+                    id:yes,color \
+                    commit-title:yes,graph:v2,refs,overflow=no
+set main-options =  --date-order
+set diff-view   =   line-number:no \
+                    text
 set refs-view   =   date:relative \
                     author:abbreviated \
-                    id:true \
-                    commit-title:yes,refs
-
+                    id:yes,color \
+                    line-number:no \
+                    ref:yes \
+                    commit-title
+set tree-view   =   author:abbreviated \
+                    date:relative \
+                    id:yes,color \
+                    file-size:units \
+                    file-name \
+                    mode:no
 # bindings
 bind main B !git rebase -i %(commit)
+# compare selected commit with parent
+bind main 6 !git difftool -d %(commit)^!
+bind diff 6 !git difftool -d %(commit)^!
 # show diff on merge commit
 bind diff 7 !git diff %(commit)^ %(commit) --color
+# amend last commit
+bind generic + !git commit --amend
+# copy commit ID to clipboard
+bind generic 9 !@sh -c "echo -n %(commit) | pbcopy"
+# add/edit notes for commit
+bind generic T !git notes edit %(commit)
+# Reload ~/.tigrc
+bind generic S :source ~/.tigrc
+# interactive add
+bind stage I !git add -i %(file)
 
 # *color* 'area' 'fgcolor' 'bgcolor' '[attributes]'
 # general

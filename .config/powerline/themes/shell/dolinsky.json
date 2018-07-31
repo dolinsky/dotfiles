@@ -2,15 +2,14 @@
 	"segments": {
 		"left": [
 			{
-				"function": "powerline.segments.shell.mode"
-			},
-			{
-				"function": "powerline.segments.common.net.hostname",
-				"priority": 10
+				"function": "powerline.segments.shell.mode",
+				"priority": 10,
+                "display": false
 			},
 			{
 				"function": "powerline.segments.common.env.user",
-				"priority": 10
+				"priority": 10,
+                "display": true
 			},
 			{
 				"function": "powerline.segments.common.env.virtualenv",
@@ -20,8 +19,7 @@
 				"function": "powerline.segments.shell.cwd",
                 "args": {
                     "dir_shorten_len": 10,
-                    "dir_limit_depth": 2,
-                    "shorten_home": true
+                    "dir_limit_depth": 2
                 },
 				"priority": 10
 			},
@@ -37,6 +35,7 @@
 				"function": "powerline_gitstatus.gitstatus",
 				"priority": 40
 			}
-		]
+        ],
+        "right": []
 	}
 }

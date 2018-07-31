@@ -1,3 +1,5 @@
+[github]
+    user = dolinsky
 [include]
     path = ~/.gitconfig.local
 [advice]
@@ -7,6 +9,8 @@
     b = branch
     bv = branch -vv
     br = branch -vr
+    bd = branch -d
+    bD = branch -D
     # branch fast-forward: update from upstream if it's a fast-forward
     bff = "!f() { for i; do [[ $(git rev-parse $i) == $(git merge-base $i $i@{upstream}) ]] && git checkout $i && git merge $i@{upstream} && git checkout -; done; }; f"
     ci = commit
@@ -75,10 +79,11 @@
     local = yellow
     remote = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+    meta = blue
+    frag = magenta
+    commit = yellow
+    old = red
+    new = green
 [color "status"]
     added = yellow
     changed = green
@@ -89,37 +94,56 @@
 	excludesfile = ~/.gitignore_global
 	filemode = false
 	status = auto
-	pager = less -XRF
+	pager = less --tabs=4 -RFX
     # nix/osx - autocrlf = input | win - autocrlf = true
     # https://help.github.com/articles/dealing-with-line-endings/
 	autocrlf = input
     safecrlf = warn
 [diff]
 	mnemonicprefix = true
+    tool = meld
+    guitool = meld
+[difftool]
+    prompt = false
+[difftool "icdiff"]
+    cmd = icdiff --highlight --line-numbers "$LOCAL" "$REMOTE"
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+    trustExitCode = true
 [help]
 	format = man
 [merge]
 	stat = true
 	conflictstyle = diff3
     defaultToUpstream = true
+    tool = meld
+[mergetool "meld"]
+    trustExitCode = true
+    cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+#    cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED" # alternate view
 [pack]
 	threads = 0
 [log]
 	abbrevCommit = true
+    date = relative
 [push]
 # makes every push explicitly declare which branches to push
-	default = nothing
+	default = simple
 [web]
 	browser = open
 [branch]
 	autosetupmerge = true
 
-[tig]
-    author = abbreviated
-    date = relative
 [tig "color"]
     diff-oldmode = red default
     diff-newmode = green default
     diff-del = red default
     diff-add = green default
     diff-add2 = green default
+[cola]
+	spellcheck = false
+[bulkworkspaces]
+	consumer = /Users/dolinsky/mdxdev/source/consumer
+#[credential]
+#	helper = !aws --profile medhelpread codecommit credential-helper $@
+#	UseHttpPath = true

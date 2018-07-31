@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 alias su2='su -'
 alias +='pushd .'
 alias ......='cd ../../../../..'
@@ -6,9 +8,13 @@ alias ....='cd ../../..'
 alias ...='cd ../..'
 alias ..='cd ..'
 alias cls=clear
+alias flushdns='dscacheutil -flushcache;sudo killall -HUP mDNSResponder;say flushed'
+alias https='http --default-scheme https' #httpie
+alias httph='https --print=Hh' #httpie
+alias readme='grip -b'
 alias rig='grep -ir'
 alias ig='grep -i'
-alias l='ls -alF'
+alias l="ls -alF"
 alias la='ls -alFtrSh'
 alias lcl='ls -cl'
 alias loc='locate -i'
@@ -45,13 +51,21 @@ alias lin='ssh -2 -p 40026 puzbot@69.164.221.74'
 alias dc='docker-compose'
 alias dm='docker-machine'
 alias dmip='docker-machine ip'
-alias drm='docker rm $(docker ps -qa --filter "dangling=true")'
-alias drmi='docker rmi $(docker ps -qa --filter "dangling=true")'
+alias drm='docker rm $(docker ps -qa)'
+alias drmi='docker rmi -f $(docker images -qa --filter dangling=true)'
+alias drrmit='docker run -it --rm'
 alias docker-clean-volumes='docker volume rm $(docker volume ls -qf dangling=true)'
 function dmeval {
     eval "`docker-machine env \$1`"
 }
+alias dockviz="docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock nate/dockviz"
 function delnone { docker rmi $(docker images | grep none | awk '{print $3}') ;}
+alias gitsome="drrmit -v "$(pwd)":/src \
+    -v ${HOME}/.gitsomeconfig:/home/anon/.gitsomeconfig \
+    -v ${HOME}/.gitsomeconfig.local:/home/anon/.gitsomeconfig.local \
+    -v ${HOME}/.gitconfig:/home/anon/.gitconfig \
+    -v ${HOME}/.gitconfig.local:/home/anon/.gitconfig.local \
+    jess/gitsome"
 
 # homebrewin
 alias git=hub
@@ -65,6 +79,10 @@ alias tmx="TERM=screen-256color-bce tmux"
 # bash git'n
 alias gl='git log --pretty=format:"%h %cr : %s"'
 alias glns='git log --pretty=format:"%h %cr : %s" --name-status'
+alias tiglog='git reflog --pretty=raw | tig --pretty=raw'
+
+# scratch python repl, depends on docker
+alias dip='drrmit jupyter-spark2.1-notebook ipython'
 
 # zootoo
 alias zootoodb='ssh -w -p 40026 zoobot@50.56.115.41'

@@ -10,11 +10,14 @@ echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH.
 brew install findutils
 # Install Bash 4
 brew install bash
+brew install bash-completion2
 sudo bash -c "echo /usr/local/bin/bash >> /private/etc/shells"
 
 # Install zsh
 brew install zsh
 sudo bash -c "echo /usr/local/bin/zsh >> /private/etc/shells"
+# make brew bash the default shell
+sudo chsh -s /usr/local/bin/bash
 
 # Install wget with IRI support
 brew install wget --enable-iri
@@ -24,18 +27,18 @@ brew tap homebrew/dupes
 brew install homebrew/dupes/grep
 
 # Install python
-brew install python --with-brewed-openssl --framework
+brew install python --with-tcl-tk
 
 # Install some useful binaries
 brew install ack
 brew install autoconf
 brew install automake
 brew install awscli
-brew install bash-completion
-brew install ctags
+#brew install ctags
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 brew install dos2unix
-brew install brew-pip
-brew install elasticsearch
+#brew install brew-pip
+#brew install elasticsearch
 #==> Caveats
 #Data:    /usr/local/var/elasticsearch/elasticsearch_dolinsky/
 #Logs:    /usr/local/var/log/elasticsearch/elasticsearch_dolinsky.log
@@ -51,13 +54,16 @@ brew install elasticsearch
 brew install fping
 brew install fontforge
 brew install freetype
-brew install gawk
+brew install gawk --with-default-names
 brew install gdbm
 brew install gettext
 brew install gfortran
 brew install gist
 brew install git
 brew install graphviz
+# gnu-sed -- PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+# gnu-sed -- MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
+brew install gnu-sed --with-default-names
 brew install htop-osx
 brew install hub
 brew install kdiff3
@@ -66,8 +72,8 @@ brew install libidn
 brew install libpng
 brew install lynx
 brew install ngrep
-brew install python3
 brew install readline
+brew install reattach-to-user-namespace
 brew install sqlite
 brew install siege
 # to get around the socket limit on OSX
@@ -78,19 +84,25 @@ brew install siege
 #Run siege.config to create the ~/.siegerc config file.
 
 brew install ssh-copy-id
+brew install the_silver_searcher
 brew install tig
-brew install tmux
+brew install tmux --with-utf8proc
 brew install tree
+brew install vim --with-gettext --with-luajit --with-python3
 brew install wget
 brew install zmq --universal
 
-# homebrew-cask
+# ruby 'n friends
+brew install rbenv ruby-build
+# after installing rbenv, ensure the following 2 lines are in .bash_profile
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
+
+# for orange3
+brew install freetds --with-krb5 --with-msdblib --with-unixodbc
 # install: brew cask install *name*
 # cleanup:  brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup
 # Install native apps
-brew tap phinze/homebrew-cask
-# TODO: does brew-cask get replaced with `brew install caskroom/cask/brew-cask`
-brew install brew-cask
 
 function installcask() {
 	if brew cask info "${@}" | grep "Not installed" > /dev/null; then
@@ -101,16 +113,16 @@ function installcask() {
 }
 
 installcask iterm2
-installcask adium
+installcask docker #installs docker for mac
 installcask vlc
 installcask colloquy
 installcask dropbox
 installcask evernote
-installcask mattr-slate #https://github.com/mattr-/slate
+#installcask mattr-slate #https://github.com/mattr-/slate
 #installcask quicksilver
 installcask jumpcut
-installcask hipchat
-installcask pgadmin3
+#installcask hipchat
+#installcask pgadmin3
 installcask gpgtools
 installcask 1password
 #installcask vagrant

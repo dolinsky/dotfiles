@@ -1,9 +1,9 @@
 #!/usr/bin/env/bash
 
 # install powerline - after brew python and brew vim
-pip install git+git://github.com/Lokaltog/powerline
+pip install -U powerline-status
 # https://github.com/jaspernbrouwer/powerline-gitstatus
-pip install powerline-gitstatus
+pip install -U powerline-gitstatus
 
 mkdir -p ~/.dotfiles/.config/powerline
 ln -s ~/.dotfiles/.config ~/.config

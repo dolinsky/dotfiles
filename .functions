@@ -13,3 +13,23 @@ function relinkvirtualenv(){
     find ~/.virtualenvs/${1} -type l -delete
     mkvirtualenv -p python${2} ${1}
 }
+
+# docker fun
+# remove all containers of a given image
+function docker_remove_containers_for_image(){
+    if [ -z "${1}" ]; then
+        echo "ERROR: No image specified"
+        return 1;
+    fi;
+    IMAGE=$1
+    #docker rm $(docker ps -a | awk '$2 =="$IMAGE" {print $1}')
+    for arg in $(docker ps -a | awk '$2 =="$IMAGE" {print $1}')
+    do
+        echo "$arg"
+    done
+}
+
+# find files by extension
+function fng(){
+    find . -name "*.${1}" -exec echo {} \;
+}

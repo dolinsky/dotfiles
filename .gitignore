@@ -1,5 +1,8 @@
 .DS_Store
-.*.sw[op]
+*.sw[op]
 *~
-*.pyc
+**/*.pyc
 .gitconfig.local
+.env.local
+*.sfdx
+tags

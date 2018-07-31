@@ -97,12 +97,7 @@
 			{
 				"function": "line_percent",
 				"priority": 50,
-				"width": 4,
 				"align": "r"
-			},
-			{
-				"function": "csv_col_current",
-				"priority": 30
 			},
 			{
 				"type": "string",

@@ -1,27 +1,35 @@
+\set QUIET 1
 \set ON_ERROR_ROLLBACK interactive
 \set COMP_KEYWORD_CASE upper
 \set HISTFILE ~/.psql/history- :HOST :DBNAME
+-- ignore lines preceded by a space as well as lines that match the previous one
+\set HISTCONTROL ignoreboth
 \set PROMPT1 '%[%033[1m%]%n@%m [%/]%# '
 -- PROMPT2, when the prompt expects more input
-\set PROMPT2 '[...] %R > '
+\set PROMPT2 '... %R > '
+-- \set PAGER 'less -SF'
 
 -- show how long each query takes
 \timing
+\set VERBOSITY verbose
 
 -- output format
 \pset null '(null)'
 \pset border 0
+\pset linestyle unicode
 -- wrap to prevent columns from running off the screen
 \pset format wrapped
-\pset pager off
+\pset pager on
 \x auto
 
 -- good queries to have, call with :name
 \set uptime 'select now() - backend_start as uptime from pg_stat_activity where pid = pg_backend_pid();'
 \set settings 'select name, setting,unit,context from pg_settings;'
 \set conns 'select count(*) , datname , client_addr , state , application_name FROM pg_stat_activity where pid <> pg_backend_pid() group by client_addr, datname, state, application_name order by datname,state;'
-\set idleconns 'select pid, datname, client_addr, client_hostname, current_timestamp - state_change AS time_idle from pg_stat_activity where pid <> pg_backend_pid() and state = \'idle\' and state_change < current_timestamp - INTERVAL \'1\' DAY;'
+\set idleconns 'select pid, datname, client_addr, client_hostname, to_char(extract(epoch from (current_timestamp - state_change)) * \'1 second\'::interval, \'HH24:MI:SS\') AS time_idle from pg_stat_activity where pid <> pg_backend_pid() and state = \'idle\' and state_change < current_timestamp - INTERVAL \'1\' MINUTE order by time_idle;'
+\set idleconns_as_table 'select json_agg(client_addr::text),count(*),datname from (select pid, datname, client_addr, client_hostname, to_char(extract(epoch from (current_timestamp - state_change)) * \'1 second\'::interval, \'HH24:MI:SS\') AS time_idle from pg_stat_activity where pid <> pg_backend_pid() and state = \'idle\' and state_change < current_timestamp - INTERVAL \'1\' MINUTE order by time_idle) foo group by datname;'
 \set waits 'SELECT pg_stat_activity.pid, pg_stat_activity.query, pg_stat_activity.waiting, now() - pg_stat_activity.query_start AS \"totaltime\", pg_stat_activity.backend_start FROM pg_stat_activity WHERE pg_stat_activity.query !~ \'%IDLE%\'::text AND pg_stat_activity.waiting = true;'
+\set waits96 'select pid, wait_event, wait_event_type, state, query from pg_stat_activity WHERE wait_event is not NULL;'
 \set rtsize '(select table_schema, table_name, pg_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) as size, pg_total_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) as total_size  from information_schema.tables where table_type = \'BASE TABLE\' and table_schema not in (\'information_schema\', \'pg_catalog\') order by pg_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) desc, table_schema, table_name)'
 \set tsize '(select table_schema, table_name, pg_size_pretty(size) as size, pg_size_pretty(total_size) as total_size from (:rtsize) x order by x.size desc, x.total_size desc, table_schema, table_name)'
 \set dbsize 'SELECT pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) AS size FROM pg_database;'
@@ -37,3 +45,7 @@
 -- indexes
 \set unused_indexes 'SELECT schemaname || ''.'' || relname AS table, indexrelname AS index, pg_size_pretty(pg_relation_size(i.indexrelid)) AS index_size, idx_scan as index_scans FROM pg_stat_user_indexes ui JOIN pg_index i ON ui.indexrelid = i.indexrelid WHERE NOT indisunique AND idx_scan < 50 AND pg_relation_size(relid) > 5 * 8192 ORDER BY pg_relation_size(i.indexrelid) / nullif(idx_scan, 0) DESC NULLS FIRST, pg_relation_size(i.indexrelid) DESC;'
 \set missing_indexes 'SELECT relname, seq_scan-idx_scan AS too_much_seq, case when seq_scan-idx_scan > 0 THEN ''Missing Index?'' ELSE ''OK'' END, pg_relation_size(relname::regclass) AS rel_size, seq_scan, idx_scan FROM pg_stat_all_tables WHERE pg_relation_size(relname::regclass) > 80000 ORDER BY too_much_seq DESC;'
+\unset QUIET
+
+-- references
+-- https://github.com/datachomp/dotfiles/blob/master/.psqlrc
