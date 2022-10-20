@@ -48,7 +48,7 @@ alias fg='find . -name "*.php" | xargs grep -nHr $1'
 alias lin='ssh -2 -p 40026 puzbot@69.164.221.74'
 
 # docker
-alias dc='docker-compose'
+alias dc='docker compose'
 alias dm='docker-machine'
 alias dmip='docker-machine ip'
 alias drm='docker rm $(docker ps -qa)'

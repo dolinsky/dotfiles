@@ -30,9 +30,10 @@ done;
 #fi
 
 # enable bash 4 autocomplete via brew bash-completion@2
-if which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
-    source "$(brew --prefix)/share/bash-completion/bash_completion";
-fi;
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+#if which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
+#    source "$(brew --prefix)/share/bash-completion/bash_completion";
+#fi;
 
 #source "$(brew --prefix)"/etc/bash_completion
 #if [ -f `brew --prefix`/etc/bash_completion ]; then
@@ -65,13 +66,14 @@ fi;
 # fonts - https://github.com/powerline/fonts
 # changed to python3.6 3/12/18
 # changed to python3.7 9/24/18
-if [ -f /usr/local/lib/python3.7/site-packages/powerline/bindings/bash/powerline.sh ]; then
+# changed to python3.9 1/23/21
+if [ -f /usr/local/lib/python3.9/site-packages/powerline/bindings/bash/powerline.sh ]; then
     powerline-daemon -q
     POWERLINE_BASH_CONTINUATION=1
     POWERLINE_BASH_SELECT=1
     export POWERLINE_CONFIG_COMMAND="/usr/local/bin/powerline-config"
     export POWERLINE_COMMAND=powerline
-    . /usr/local/lib/python3.7/site-packages/powerline/bindings/bash/powerline.sh
+    . /usr/local/lib/python3.9/site-packages/powerline/bindings/bash/powerline.sh
 fi
 #if [ -f ~/bin/tmuxinator.sh ]; then
 #    . ~/bin/tmuxinator.sh
