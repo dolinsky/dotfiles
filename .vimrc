@@ -89,7 +89,7 @@ set formatoptions=qrn1w "see :help fo-table
                  "|_ allow formatting of comments w/ "gq"
 set colorcolumn=+1,+10
 " use :dig to display usable digraphs, Ctrl-k + combo to insert
-set list listchars=tab:>-,trail:…,nbsp:,extends:≫
+set list listchars=tab:>-,trail:…,nbsp:%,extends:≫
 " }}}
 
 " Leader {{{
